@@ -36,7 +36,7 @@ main = hspec $ do
             t === (T.decodeUtf8 $ urlDecode True $ T.encodeUtf8 $ SqlCommenter.urlEncode t)
     specify "Span attributes are picked up from thread-local context" $ do
         tp <- createTracerProvider [] emptyTracerProviderOptions
-        let t = makeTracer tp (InstrumentationLibrary{libraryName = "test", libraryVersion = "test"}) tracerOptions
+        let t = makeTracer tp ("test" :: InstrumentationLibrary) tracerOptions
         inSpan t "test" defaultSpanArguments $ do
             attrs <- getSqlCommenterAttributesWithTraceData
             M.lookup "traceparent" attrs `shouldSatisfy` isJust
